@@ -1,0 +1,14 @@
+ecommerce_dwh:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DBT_HOST', 'postgres') }}"           # 'postgres' — це ім'я сервісу в docker-compose
+      port: "{{ env_var('DBT_PORT', '5432') | int }}"         # | int — бо порт число
+      user: "{{ env_var('DBT_USER', 'dwh_user') }}"
+      password: "{{ env_var('DBT_PASSWORD', 'dwh_pass') }}"
+      dbname: "{{ env_var('DBT_DBNAME', 'dwh') }}"
+      schema: public                                           # або dbt_dev, якщо хочеш окремий схему
+      threads: 4                                               # скільки паралельних з'єднань
+      connect_timeout: 10
+      retries: 2
