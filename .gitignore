@@ -1,31 +1,13 @@
-# Python
+# Python / Airflow / dbt
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.env
 .venv/
 venv/
-
-# dbt
 target/
 dbt_packages/
 logs/
-
-# Airflow
 airflow/logs/
 airflow/airflow.cfg
-airflow/*.pid
-airflow/webserver_config.py
-
-# Docker
 *.log
-docker-compose.override.yml
-
-# IDE / Editors
-.vscode/
-.idea/
-
-# OS
 .DS_Store
 Thumbs.db
