@@ -11,3 +11,4 @@ airflow/airflow.cfg
 *.log
 .DS_Store
 Thumbs.db
+data/
