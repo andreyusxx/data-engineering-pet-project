@@ -13,7 +13,6 @@ services:
     volumes:
       - ./postgres/init:/docker-entrypoint-initdb.d
     healthcheck:
-      # ВИПРАВЛЕНО: додали -d dwh
       test: ["CMD-SHELL", "pg_isready -U dwh_user -d dwh"]
       interval: 10s
       retries: 5
@@ -44,3 +43,20 @@ services:
         --email admin@example.com &&
       airflow webserver & airflow scheduler
       "
+
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.7.3
+    container_name: dbt
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./dbt:/usr/app/dbt
+    environment:
+      DBT_PROFILES_DIR: /usr/app/dbt
+      DBT_HOST: postgres
+      DBT_PORT: 5432
+      DBT_USER: dwh_user
+      DBT_PASSWORD: dwh_pass
+      DBT_DBNAME: dwh
+    command: tail -f /dev/null
