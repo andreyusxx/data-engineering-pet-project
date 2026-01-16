@@ -27,22 +27,16 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://dwh_user:dwh_pass@postgres:5432/airflow_db
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__FERNET_KEY: "46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho="
     volumes:
       - ./airflow/dags:/opt/airflow/dags
+      - ./data:/opt/airflow/data
     ports:
       - "8080:8080"
-    command: >
-      bash -c "
-      airflow db init &&
-      airflow users create \
-        --username admin \
-        --password admin \
-        --firstname Admin \
-        --lastname User \
-        --role Admin \
-        --email admin@example.com &&
-      airflow webserver & airflow scheduler
-      "
+    # ПЕРЕВИЗНАЧАЄМО ВХІДНУ ТОЧКУ:
+    # Це ігнорує всі перевірки Airflow і просто тримає контейнер увімкненим
+    entrypoint: /bin/bash
+    command: -c "sleep infinity"
 
   dbt:
     image: ghcr.io/dbt-labs/dbt-postgres:1.7.3
@@ -59,4 +53,6 @@ services:
       DBT_USER: dwh_user
       DBT_PASSWORD: dwh_pass
       DBT_DBNAME: dwh
-    command: tail -f /dev/null
+    # Те саме для dbt
+    entrypoint: /bin/bash
+    command: -c "sleep infinity"
