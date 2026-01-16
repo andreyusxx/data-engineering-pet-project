@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: stg_users
+    description: "Очищена таблиця користувачів"
+    columns:
+      - name: user_id
+        description: "Унікальний ідентифікатор користувача"
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    description: "Очищена таблиця замовлень"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      
+      - name: status
+        tests:
+          - accepted_values:
+              values: 
+                - 'placed'
+                - 'shipped'
+                - 'completed'
+                - 'return_pending'
+                - 'returned'
+                - 'cancelled' 
+                - 'processing' 
+
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
