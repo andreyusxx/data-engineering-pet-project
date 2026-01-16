@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: dm_users
+    description: "Фінальна вітрина по користувачах та їх витратах"
+    columns:
+      - name: user_id
+        description: "Первинний ключ"
+        tests:
+          - unique
+          - not_null
+
+      - name: total_spent
+        description: "Сума всіх замовлень користувача"
