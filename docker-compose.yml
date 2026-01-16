@@ -57,3 +57,18 @@ services:
     # Те саме для dbt
     entrypoint: /bin/bash
     command: -c "sleep infinity"
+
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - metabase_data:/metabase-data
+    depends_on:
+      - postgres
+volumes:
+  postgres_data:
+  metabase_data:
